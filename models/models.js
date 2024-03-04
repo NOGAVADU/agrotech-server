@@ -3,7 +3,6 @@ const {DataTypes, STRING} = require('sequelize');
 
 const User = sequelize.define('user', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    login: {type: DataTypes.STRING},
     email: {type: DataTypes.STRING, unique: true},
     password: {type: DataTypes.STRING},
     role: {type: DataTypes.STRING, defaultValue: 'USER'},
@@ -13,7 +12,7 @@ const Favorite = sequelize.define('favorite', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 });
 
-const UserItem = sequelize.define('user_item', {
+const FavoriteItem = sequelize.define('favorite_item', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 });
 
@@ -29,13 +28,13 @@ const Item = sequelize.define('item', {
 User.hasOne(Favorite);
 Favorite.belongsTo(User);
 
-Favorite.hasMany(UserItem);
-UserItem.belongsTo(Favorite);
+Favorite.hasMany(FavoriteItem);
+FavoriteItem.belongsTo(Favorite);
 
-Item.hasOne(UserItem);
-UserItem.belongsTo(Item);
+Item.hasOne(FavoriteItem);
+FavoriteItem.belongsTo(Item);
 
 
 module.exports = {
-    User, Favorite, UserItem, Item,
+    User, Favorite, FavoriteItem, Item
 };
