@@ -21,15 +21,22 @@ class ItemController {
         res.json(favorite)
     }
 
-    async getFavoriteList(req, res) {
-        const {id} = req.params;
-        const favorites = await Favorite.findOne({where: {id: id}, include: FavoriteItem})
-        res.json(favorites)
-        // const {id} = req.params
-        // const favorites = await Item.findAll({where: {favorite_item.favoriteId: parseInt(id)}})
-        // res.json(favorites)
-    }
+    async getItemsFavItems(req, res) {
+        const {id} = req.query
 
+        const favoriteItems = await FavoriteItem.findAll({where: {favoriteId: id}})
+
+        const fetchFavItem = async (id) => {
+            return await Item.findOne({where: {id: id}})
+        }
+
+        const getFavItems = Promise.all(favoriteItems.map(favItem => {
+            return fetchFavItem(favItem.itemId);
+        }));
+        getFavItems.then(favItems => {
+            res.json(favItems);
+        })
+    }
 }
 
 module.exports = new ItemController()

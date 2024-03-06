@@ -5,6 +5,7 @@ const favoriteController = require('../controllers/favoriteController')
 router.post('/', favoriteController.add)
 router.delete('/', favoriteController.remove)
 router.get('/', favoriteController.getAll)
-router.get('/:id', favoriteController.getFavoriteList)
+router.get('/items', favoriteController.getItemsFavItems)
+
 
 module.exports = router
