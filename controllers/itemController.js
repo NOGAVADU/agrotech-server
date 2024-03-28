@@ -4,10 +4,23 @@ const {Op} = require("sequelize");
 
 class ItemController {
     async create(req, res) {
-        let {article, name, state, price, source} = req.body;
-        name = name.toLowerCase()
-        const item = await Item.create({article, name, state, price, source});
-        return res.json(item)
+        try {
+            let {name, article, state, price, source} = req.body;
+            name = name.toLowerCase()
+            const item = await Item.create({name, article, state, price, source});
+            return res.json(item)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    async deleteOne(req, res) {
+        try {
+            const {id} = req.body
+            const item = Item.destroy({where: {id: id}})
+            return res.json(item)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     async getAll(req, res) {
@@ -16,7 +29,7 @@ class ItemController {
         limit = limit || 3;
         let offset = page * limit - limit;
 
-        let items = await Item.findAndCountAll({ limit, offset})
+        let items = await Item.findAndCountAll({limit, offset})
         return res.json(items)
     }
 
