@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000
 
 httpsOptions = {
     key: fs.readFileSync("key.pem"), // путь к ключу
-    cert: fs.readFileSync("csr.pem") // путь к сертификату
+    cert: fs.readFileSync("cert.pem") // путь к сертификату
 }
 
 const app = express()
