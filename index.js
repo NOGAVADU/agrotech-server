@@ -12,8 +12,8 @@ const fs = require("fs");
 const PORT = process.env.PORT || 5000
 
 httpsOptions = {
-    key: fs.readFileSync("../../../etc/letsencrypt/live/agrotech-service.ru/pivkey.pem"), // путь к ключу
-    cert: fs.readFileSync("../../../etc/letsencrypt/live/agrotech-service.ru/cert.pem") // путь к сертификату
+    key: fs.readFileSync("key.pem"), // путь к ключу
+    cert: fs.readFileSync("cert.pem") // путь к сертификату
 }
 
 const app = express()
@@ -28,8 +28,8 @@ const start = async () => {
         await sequelize.authenticate()
         await sequelize.sync()
         https.createServer({
-            key: fs.readFileSync("../../../etc/letsencrypt/live/agrotech-service.ru/pivkey.pem"),
-            cert: fs.readFileSync("../../../etc/letsencrypt/live/agrotech-service.ru/cert.pem"),
+            key: fs.readFileSync(httpsOptions.key),
+            cert: fs.readFileSync(httpsOptions.cert),
         },).listen(PORT, () => {
             console.log(`Server started on port ${PORT}`)
         })
