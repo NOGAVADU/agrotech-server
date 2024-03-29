@@ -1,5 +1,4 @@
 const {Item, Favorite, FavoriteItem} = require('../models/models')
-const ApiError = require('../errors/apiError')
 const {Op} = require("sequelize");
 
 class ItemController {
