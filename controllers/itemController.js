@@ -1,5 +1,7 @@
 const {Item, Favorite, FavoriteItem} = require('../models/models')
 const {Op} = require("sequelize");
+const XLSX = require('xlsx')
+const fs = require("fs");
 
 class ItemController {
     async create(req, res) {
@@ -12,6 +14,38 @@ class ItemController {
             console.log(e)
         }
     }
+
+    async createMany(req, res) {
+        try {
+            if (!req.files) {
+                return res.status(400).send("No excel were uploaded")
+            }
+
+            const file = req.files.file;
+
+            await file.mv(`./${file.name}`, (err) => {
+                if (err) {
+                    return res.status(500).send(err);
+                }
+
+                const workbook = XLSX.readFile(file.name);
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+
+                const data = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+
+                fs.rmSync(`./${file.name}`, {
+                    force: true
+                })
+
+                res.json(data)
+            });
+
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     async deleteOne(req, res) {
         try {
             const {id} = req.body

@@ -4,6 +4,7 @@ const itemController = require('../controllers/itemController')
 const checkRoleMiddleware = require('../middlewares/checkRoleMiddleware')
 
 router.post('/', checkRoleMiddleware("ADMIN"), itemController.create)
+router.post('/many', itemController.createMany)
 router.delete('/', checkRoleMiddleware("ADMIN"), itemController.deleteOne)
 router.get('/', itemController.getAll)
 router.get('/find', itemController.findAll)

@@ -21,7 +21,7 @@ const Item = sequelize.define('item', {
     article: {type: DataTypes.STRING},
     name: {type: DataTypes.STRING},
     state: {type: DataTypes.STRING},
-    price: {type: DataTypes.INTEGER},
+    price: {type: DataTypes.FLOAT},
     source: {type: DataTypes.STRING},
 });
 
