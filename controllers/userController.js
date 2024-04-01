@@ -24,8 +24,8 @@ class UserController {
             );
         }
 
-        if (email === 'oooagrosupp@mail.ru') {
-            role = "ADMIN"
+        if (email === 'portner1@agro.supp') {
+            role = "SUPPLIER"
         }
 
         const hashPassword = await bcrypt.hash(password, 5);
