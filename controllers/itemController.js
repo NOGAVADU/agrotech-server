@@ -1,7 +1,9 @@
 const {Item, Favorite, FavoriteItem} = require('../models/models')
-const {Op} = require("sequelize");
+const {Op, where} = require("sequelize");
 const XLSX = require('xlsx')
 const fs = require("fs");
+const model = require('../models/models')
+const sequelize = require('sequelize')
 
 class ItemController {
     async create(req, res) {
@@ -38,7 +40,13 @@ class ItemController {
                     force: true
                 })
 
-                res.json(data)
+                data.map(async function (item) {
+                    let [name, article, price, state, source] = item;
+                    price = parseFloat(price)
+                    name = name.toLowerCase()
+                    await Item.create({name, article,state, price, source});
+                })
+                return res.json(data)
             });
 
         } catch (e) {
@@ -51,6 +59,15 @@ class ItemController {
             const {id} = req.body
             const item = Item.destroy({where: {id: id}})
             return res.json(item)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    async deleteAll(req, res) {
+        try {
+            await Item.destroy({where: {}});
+            return res.json('All data was deleted')
         } catch (e) {
             console.log(e)
         }
